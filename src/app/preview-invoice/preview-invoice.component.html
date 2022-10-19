@@ -1,1 +1,8 @@
-<p>preview-invoice works!</p>
+<div class="header-data">
+  <h1>{{ invoiceService.company.name }}</h1>
+  <h2>{{ invoiceService.company.address }}</h2>
+  <p>
+    Phones: {{ invoiceService.company.phones[0] }},
+    {{ invoiceService.company.phones[1] }}
+  </p>
+</div>
