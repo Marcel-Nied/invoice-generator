@@ -3,3 +3,9 @@ export interface Company {
   address: string;
   phones: number[];
 }
+
+export interface InvoiceItem {
+  name: string;
+  count: number;
+  price: number;
+}

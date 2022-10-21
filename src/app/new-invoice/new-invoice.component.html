@@ -1,58 +1,15 @@
 <form class="main-form-data">
-  <mat-form-field class="name-input" appearance="fill">
-    <mat-label> Name</mat-label>
-    <input matInput type="text" placeholder="Name" />
-  </mat-form-field>
-
-  <mat-form-field class="count-input" appearance="fill">
-    <mat-label>Count</mat-label>
-    <input
-      type="number"
-      matInput
-      [formControl]="countFormControl"
-      placeholder=""
-    />
-    <mat-error
-      *ngIf="
-        countFormControl.hasError('Count') &&
-        !countFormControl.hasError('required')
-      "
-    >
-      Please enter a valid email address
-    </mat-error>
-    <mat-error *ngIf="priceFormControl.hasError('required')">
-      Please input number
-    </mat-error>
-  </mat-form-field>
-  <mat-form-field class="price-input" appearance="fill">
-    <mat-label>Price</mat-label>
-    <input
-      type="number"
-      matInput
-      [formControl]="priceFormControl"
-      placeholder=""
-    />
-    <mat-error
-      *ngIf="
-        priceFormControl.hasError('Price') &&
-        !priceFormControl.hasError('required')
-      "
-    >
-      Please enter a valid email address
-    </mat-error>
-    <mat-error *ngIf="priceFormControl.hasError('required')">
-      Please enter price
-    </mat-error>
-  </mat-form-field>
-
-  <button class="delete-button">
-    <mat-icon>delete</mat-icon>
-  </button>
-  <div class="creative-buttons"></div>
-  <div>
-    <button class="add-item-button" mat-button>+ Add New item</button>
-  </div>
-  <div>
-    <button class="add-item-button" mat-button>Submit</button>
+  <app-invoice-item></app-invoice-item>
+  <div class="creative-buttons">
+    <div>
+      <button class="add-item-button" (click)="addNewItem()" mat-button>
+        + Add New item
+      </button>
+    </div>
+    <div>
+      <button class="add-item-button" (click)="submitNewInvoice()" mat-button>
+        Submit
+      </button>
+    </div>
   </div>
 </form>

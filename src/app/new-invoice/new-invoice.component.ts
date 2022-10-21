@@ -1,6 +1,8 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { InvoiceService } from './../invoice.service';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { FormArray, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-new-invoice',
@@ -8,24 +10,50 @@ import { FormControl, Validators } from '@angular/forms';
   styleUrls: ['./new-invoice.component.scss'],
 })
 export class NewInvoiceComponent implements OnInit {
-  countFormControl = new FormControl('', [
-    Validators.required,
-    Validators.min(1),
-    Validators.max(100),
-  ]);
-
-  priceFormControl = new FormControl('', [
-    Validators.required,
-    Validators.min(1),
-    Validators.max(1000000),
-  ]);
-  constructor(private invoiceService: InvoiceService) {}
+  constructor(
+    public invoiceService: InvoiceService,
+    private snackBar: MatSnackBar,
+    private router: Router
+  ) {}
 
   ngOnInit() {
-    this.getDataFromService();
+    this.invoiceService.formItems.clear();
+    this.invoiceService.createNewFormGroup();
   }
 
-  getDataFromService() {
-    this.invoiceService.getCompanyDataService();
+  addNewItem(): void {
+    this.invoiceService.createNewFormGroup();
+  }
+
+  submitNewInvoice(): void {
+    if (this.invoiceService.formItems.length > 1) {
+      this.filterOutInvalidRows();
+    }
+
+    if (
+      this.invoiceService.formItems.valid &&
+      this.invoiceService.formItems.length
+    ) {
+      this.router.navigate(['preview-invoice-component']);
+    } else {
+      this.invoiceService.formItems.markAllAsTouched();
+      this.showSnackBar('Form invalid');
+
+      if (this.invoiceService.formItems.length === 0) {
+        this.showSnackBar('Please add items');
+      }
+    }
+  }
+  private filterOutInvalidRows(): void {
+    this.invoiceService.formItems = new FormArray(
+      this.invoiceService.formItems.controls.filter((formGroup: FormGroup) => {
+        return formGroup.valid;
+      })
+    );
+  }
+  private showSnackBar(message: string, action: string = 'ok'): void {
+    this.snackBar.open(message, action, {
+      duration: 1500,
+    });
   }
 }

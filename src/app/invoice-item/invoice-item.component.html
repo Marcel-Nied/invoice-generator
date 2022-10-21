@@ -1,0 +1,57 @@
+<div *ngFor="let formGroup of invoiceService.formItems.controls; let i = index">
+  <form [formGroup]="formGroup">
+    <div class="invoice-form">
+      <mat-form-field class="name-input" appearance="fill">
+        <mat-label> Name</mat-label>
+        <input matInput placeholder="Name" formControlName="name" />
+        <mat-error *ngIf="formGroup.get('name')?.hasError('required')">
+          Please write Name
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('name')?.hasError('minlength')">
+          Min 3 characters
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('name')?.hasError('maxlength')">
+          Max 30 characters
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="count-input" appearance="fill">
+        <mat-label>Count</mat-label>
+        <input type="text" matInput formControlName="count" placeholder="0" />
+        <mat-error *ngIf="formGroup.get('count')?.hasError('required')">
+          Write number
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('count')?.hasError('min')">
+          Write number higher or equal to 1
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('count')?.hasError('max')">
+          Write number smaller or equal to 100
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('count')?.hasError('pattern')">
+          Please enter only numbers
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="price-input" appearance="fill">
+        <mat-label>Price</mat-label>
+        <input
+          type="text"
+          inputmode="numeric"
+          matInput
+          formControlName="price"
+          placeholder="0"
+        />
+        <mat-error *ngIf="formGroup.get('price')?.hasError('required')">
+          Please enter price
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('price')?.hasError('pattern')">
+          Please enter only numbers
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('price')?.hasError('max')">
+          Write number smaller or equal to 1000000
+        </mat-error>
+      </mat-form-field>
+      <button type="button" class="delete-button" (click)="deleteItem(i)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </form>
+</div>
